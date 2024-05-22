@@ -1,0 +1,15 @@
+{
+  "name": "mongodbdocker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "up": "docker-compose up -d",
+    "stop": "docker-compose stop",
+    "down": "docker-compose down",
+    "status": "docker-compose ps"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
