@@ -1,17 +1,25 @@
-version: '3.8'
+version: "3.8"
 
 services:
-
-  mongo:
-    image: mongo:latest
-    restart: always
-    container_name: mongodb
-    hostname: host-mongo
+  postgres:
+    image: postgres:13 # Usa la imagen oficial de PostgreSQL
+    container_name: mi-postgres
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: secret
-    volumes:
-      - ./data:/data/db
-      - ./data/log:/var/log/mongodb
+      - POSTGRES_USER=myuser # Usuario para PostgreSQL
+      - POSTGRES_PASSWORD=mypassword # Contraseña para PostgreSQL
+      - POSTGRES_DB=mydatabase # Base de datos a crear
     ports:
-      - "27017:27017"
+      - "5432:5432" # Exponer el puerto 5432
+    volumes:
+      - ./data:/var/lib/postgresql/data # Montar la carpeta 'data' en el contenedor para persistir datos
+      - ./init:/docker-entrypoint-initdb.d # Montar la carpeta 'init' para ejecutar scripts de inicialización
+    networks:
+      - my_network
+    restart: always # Reinicia el contenedor automáticamente si falla
+
+volumes:
+  # No es necesario definir un volumen persistente explícitamente porque Docker ya lo maneja con 'data'
+
+networks:
+  my_network:
+    driver: bridge # Red personalizada de Docker
